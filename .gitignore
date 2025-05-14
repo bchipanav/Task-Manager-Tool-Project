@@ -1,21 +1,8 @@
-# node modules
-node_modules/
+# Ignorar todos los node_modules del proyecto
+**/node_modules/
 
-# logs
-logs
+# Ignorar archivos sensibles y otros comunes
+**/.env
 *.log
-npm-debug.log*
-
-# environment variables
-.env
-
-# OS-specific files
 .DS_Store
-
-# IDE settings
 .vscode/
-.idea/
-
-# build outputs
-dist/
-build/
