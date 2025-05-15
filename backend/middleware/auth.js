@@ -11,7 +11,7 @@ export default async function authMiddleware(req, res, next) {
 			.status(401)
 			.json({ success: false, message: "Not Authorized, token missing" });
 	}
-	const token = authHeader.split("")[1];
+	const token = authHeader.split(" ")[1];
 	//Verify & attach user object
 	try {
 		const payload = jwt.verify(token, JWT_SECRET);

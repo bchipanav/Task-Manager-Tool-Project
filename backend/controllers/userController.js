@@ -113,6 +113,12 @@ export async function loginUser(req, res) {
 				message: "Invalid credentials",
 			});
 		}
+		const token = createToken(user._id);
+		return res.json({
+			success: true,
+			token,
+			user: { id: user._id, name: user.name, email: user.email },
+		});
 	} catch (err) {
 		console.log(err);
 		res.status(500).json({ success: false, message: "Server error" });
