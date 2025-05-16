@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useNavigate, Outlet } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate, Outlet } from "react-router-dom";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import Layout from "./components/Layout";
+import Dashboard from "./pages/Dashboard";
+import PendingPage from "./pages/PendingPAge";
+import CompletePage from "./pages/CompletePage";
+import Profile from "./components/Profile";
 
 const App = () => {
 	const navigate = useNavigate();
@@ -31,11 +35,11 @@ const App = () => {
 		setCurrentUser(null);
 		navigate("login", { replace: true });
 	};
-	const ProtectedLayout = () => {
+	const ProtectedLayout = () => (
 		<Layout user={currentUser} onLogout={handleLogout}>
 			<Outlet />
-		</Layout>;
-	};
+		</Layout>
+	);
 	return (
 		<Routes>
 			<Route
@@ -60,7 +64,29 @@ const App = () => {
 					</div>
 				}
 			/>
-			<Route path="/" element={<Layout />} />
+			<Route
+				element={
+					currentUser ? <ProtectedLayout /> : <Navigate to="/login" replace />
+				}
+			>
+				<Route path="/" element={<Dashboard />} />
+				<Route path="/pending" element={<PendingPage />} />
+				<Route path="/complete" element={<CompletePage />} />
+				<Route
+					path="/profile"
+					element={
+						<Profile
+							user={currentUser}
+							setCurrentUser={setCurrentUser}
+							onLogout={handleLogout}
+						/>
+					}
+				/>
+			</Route>
+			<Route
+				path="*"
+				element={<Navigate to={currentUser ? "/" : "/login"} replace />}
+			/>
 		</Routes>
 	);
 };
